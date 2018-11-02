@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.4.3"></a>
+## [0.4.3](https://github.com/jleveugle/manager-test/compare/@ovh-ux/ovh-manager-welcome@0.4.2...@ovh-ux/ovh-manager-welcome@0.4.3) (2018-11-02)
+
+
+### Bug Fixes
+
+* my fix ([0514f4e](https://github.com/jleveugle/manager-test/commit/0514f4e))
+
+
+
+
 <a name="0.4.2"></a>
 ## [0.4.2](https://github.com/jleveugle/manager-test/compare/@ovh-ux/ovh-manager-welcome@0.4.1...@ovh-ux/ovh-manager-welcome@0.4.2) (2018-11-02)
 
