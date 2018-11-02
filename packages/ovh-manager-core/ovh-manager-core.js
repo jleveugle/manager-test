@@ -43,8 +43,6 @@ export default angular
     $translateProvider.preferredLanguage(defaultLanguage);
     $translateProvider.use(defaultLanguage);
     $translateProvider.fallbackLanguage(LANGUAGES.fallback);
-
-    console.log('my feature');
   })
   .service('SessionService', sessionService)
   .name;
