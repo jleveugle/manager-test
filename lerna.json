@@ -7,7 +7,11 @@
   "useWorkspaces": true,
   "version": "independent",
   "changelog": {
-    "repo": "jleveugle/manager-test"
+    "repo": "jleveugle/manager-test",
+    "labels": {
+      "feat": "New Feature",
+      "fix": "Bug Fix"
+    }
   },
   "command": {
     "bootstrap": {
