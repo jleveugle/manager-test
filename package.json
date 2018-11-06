@@ -1,6 +1,6 @@
 {
   "name": "ovh-manager",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "OVH Control Panel also known as Manager",
   "license": "BSD-3-Clause",
   "private": true,
