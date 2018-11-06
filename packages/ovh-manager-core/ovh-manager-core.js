@@ -14,6 +14,8 @@ import {
   MANAGER_URLS, LANGUAGES, REDIRECT_URLS, URLS,
 } from './ovh-manager-core.constants';
 
+console.log('FEATURE');
+
 export default angular
   .module('ovhManagerCore', [
     'ovh-api-services',
