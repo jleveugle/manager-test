@@ -17,8 +17,7 @@
     "lint:css": "stylelint 'packages/**/*.less' --fix",
     "lint:html": "htmlhint 'packages/**/*.html'",
     "lint:js": "eslint --fix .",
-    "lint:md": "remark -qf .",
-    "version": "git add . && npx standard-version -a"
+    "lint:md": "remark -qf ."
   },
   "devDependencies": {
     "@commitlint/cli": "^7.1.1",

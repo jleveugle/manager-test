@@ -1,16 +1,29 @@
 #!/bin/bash
 
-npx lerna exec --concurrency 1 --stream -- \
-  conventional-recommended-bump \
-    --preset angular \
-    --lerna-package \$LERNA_PACKAGE_NAME \
-    --commit-path \$PWD
+# Bump monorepo
+echo "🔍 Checking if packages need to be released"
+PACKAGE_NEXT_VERSION=`conventional-recommended-bump --preset angular`
 
-# npx lerna exec --concurrency 1 --no-sort --stream -- \
-#  conventional-changelog \
-#    --preset angular \
-#    --infile CHANGELOG.md \
-#    --same-file \
-#    --release-count 0 \
-#    --lerna-package \$LERNA_PACKAGE_NAME \
-#    --commit-path \$PWD
+if [ -z $PACKAGE_NEXT_VERSION ]; then
+  echo "✅  No release needed. All is clear Sir!"
+else
+  OLD_PACKAGE_VERSION=`node -p "require('$(pwd)/package.json').version"`
+  NEW_PACKAGE_VERSION=`semver $OLD_PACKAGE_VERSION -i $PACKAGE_NEXT_VERSION`
+
+  echo "🚚  Some modifications has been detected ($OLD_PACKAGE_VERSION -> $NEW_PACKAGE_VERSION)"
+  yarn version -s --new-version $NEW_PACKAGE_VERSION --no-git-tag-version --no-commit-hooks
+
+  echo "🔍 Checking if packages need to be released"
+  # Check packages which need to be released
+  for p in `lerna changed -alp --loglevel=silent`
+  do
+    sp=($(echo "$p" | tr ':' '\n'))
+    npx lerna exec --scope ${sp[1]} --concurrency 1 --stream --no-prefix -- $(pwd)/script/release-package
+  done
+
+  # Add all changelog, updated package.json in a same commit
+  git add . && git commit -m "release: v$NEW_PACKAGE_VERSION" --no-verify
+  git tag -a -m "release: v$NEW_PACKAGE_VERSION" "v$NEW_PACKAGE_VERSION"
+fi
+
+echo "🦄  All done !"

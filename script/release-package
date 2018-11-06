@@ -1,0 +1,25 @@
+#!/bin/bash
+
+PACKAGE_NEXT_VERSION=`conventional-recommended-bump --preset angular --lerna-package \$LERNA_PACKAGE_NAME --commit-path \$PWD`
+MONOREPO_LAST_TAG=`git describe --abbrev=0 --tags`
+OLD_PACKAGE_VERSION=`node -p "require('$(pwd)/package.json').version"`
+NEW_PACKAGE_VERSION=`semver $OLD_PACKAGE_VERSION -i $PACKAGE_NEXT_VERSION`
+
+echo "📦  Releasing $LERNA_PACKAGE_NAME as $PACKAGE_NEXT_VERSION ($OLD_PACKAGE_VERSION -> $NEW_PACKAGE_VERSION)"
+
+yarn version -s --new-version $NEW_PACKAGE_VERSION --no-git-tag-version --no-commit-hooks
+
+# Add tricky tag to generate the right changelog without main monorepo tags
+git tag $LERNA_PACKAGE_NAME@$OLD_PACKAGE_VERSION $MONOREPO_LAST_TAG > /dev/null
+
+echo "📓  Updated CHANGELOG..."
+lerna exec --scope $LERNA_PACKAGE_NAME --concurrency 1 --no-sort -- conventional-changelog \
+  --preset angular \
+  --infile CHANGELOG.md \
+  --same-file \
+  --lerna-package \$LERNA_PACKAGE_NAME \
+  --commit-path \$PWD
+
+# Remove the tricky tag
+
+git tag -d $LERNA_PACKAGE_NAME@$OLD_PACKAGE_VERSION > /dev/null
