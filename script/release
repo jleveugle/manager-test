@@ -1,6 +1,6 @@
 #!/bin/bash
 
-npx lerna exec --concurrency 1 --no-sort --stream -- \
+npx lerna exec --concurrency 1 --stream -- \
   conventional-recommended-bump \
     --preset angular \
     --lerna-package \$LERNA_PACKAGE_NAME \
